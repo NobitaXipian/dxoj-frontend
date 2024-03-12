@@ -27,8 +27,7 @@
       <!--      </div>-->
       <a-dropdown>
         <a-avatar @click="showDetail" :style="{ backgroundColor: '#14C9C9' }">
-          <!--          <IconUser />-->
-          {{ userName }}
+          <IconUser />
           <template #trigger-icon>
             <IconEdit />
           </template>
@@ -59,7 +58,12 @@ import { computed, onMounted, onUpdated, ref } from "vue";
 import { useStore } from "vuex";
 import checkAccess from "@/access/checkAccess";
 import ACCESS_ENUM from "@/access/accessEnum";
-import { IconEdit, IconImport, IconExport } from "@arco-design/web-vue/es/icon";
+import {
+  IconEdit,
+  IconImport,
+  IconExport,
+  IconUser,
+} from "@arco-design/web-vue/es/icon";
 import { UserControllerService } from "../../generated";
 import message from "@arco-design/web-vue/es/message";
 

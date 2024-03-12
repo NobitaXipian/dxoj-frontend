@@ -34,7 +34,19 @@
       @page-change="onPageChange"
     >
       <template #judgeInfo="{ record }">
-        {{ JSON.stringify(record.judgeInfo) }}
+        <a-popover trigger="click" position="bl" color="green">
+          <a-button>{{ record.judgeInfo.message }}</a-button>
+          <template #content>
+            <p>做题状态:{{ record.judgeInfo.message }}</p>
+            <p>内存占用:{{ record.judgeInfo.memory }} kb</p>
+            <p>时间占用:{{ record.judgeInfo.time }} ms</p>
+          </template>
+        </a-popover>
+      </template>
+      <template #status="{ record }">
+        <a-tag bordered :color="colors[record.status]"
+          >{{ statusEnum[record.status] }}
+        </a-tag>
       </template>
       <template #createTime="{ record }">
         {{ moment(record.createTime).format("YYYY-MM-DD-HH:mm:ss") }}
@@ -44,7 +56,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watchEffect } from "vue";
+import { computed, onMounted, ref, watchEffect } from "vue";
 import {
   Question,
   QuestionControllerService,
@@ -95,6 +107,10 @@ onMounted(() => {
   loadData();
 });
 
+// 判题状态（0 - 待判题、1 - 判题中、2 - 成功、3 - 失败）
+const statusEnum = ["待判题", "判题中", "成功", "失败"];
+const colors = ["gray", "lime", "green", "orangered"];
+
 const columns = [
   {
     title: "提交号",
@@ -109,8 +125,8 @@ const columns = [
     slotName: "judgeInfo",
   },
   {
-    title: "判题状态",
-    dataIndex: "status",
+    title: "判题流程",
+    slotName: "status",
   },
   {
     title: "题目 id",
