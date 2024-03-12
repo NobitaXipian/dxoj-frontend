@@ -32,11 +32,18 @@
         </a-space>
       </template>
       <template #acceptedRate="{ record }">
-        {{
-          `${
-            record.submitNum ? record.acceptedNum / record.submitNum : "0"
-          }% (${record.acceptedNum}/${record.submitNum})`
-        }}
+        <a-progress
+          :percent="
+            record.submitNum ? record.acceptedNum / record.submitNum : 0
+          "
+          :style="{ width: '100%' }"
+          size="large"
+          width="200"
+          :color="{
+            '0%': 'rgb(var(--warning-6))',
+            '100%': 'rgb(var(--success-6))',
+          }"
+        />
       </template>
       <template #createTime="{ record }">
         {{ moment(record.createTime).format("YYYY-MM-DD-HH:mm:ss") }}
@@ -120,6 +127,7 @@ const columns = [
   {
     title: "通过率",
     slotName: "acceptedRate",
+    width: 180,
   },
   {
     title: "创建时间",
