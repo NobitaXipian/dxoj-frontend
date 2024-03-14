@@ -198,7 +198,7 @@ const doSubmit = async () => {
       message.error("创建失败，" + res.message);
     }
     router.push({
-      path: "/add/questions",
+      path: "/add/question",
     });
   }
 };
