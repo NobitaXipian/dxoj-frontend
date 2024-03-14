@@ -33,15 +33,15 @@
               size="large"
             />
           </a-form-item>
-          <a-form-item field="judgeConfig.stackLimit" label="堆栈限制">
-            <a-input-number
-              v-model="form.judgeConfig.stackLimit"
-              placeholder="请输入堆栈限制"
-              mode="button"
-              min="0"
-              size="large"
-            />
-          </a-form-item>
+          <!--          <a-form-item field="judgeConfig.stackLimit" label="堆栈限制">-->
+          <!--            <a-input-number-->
+          <!--              v-model="form.judgeConfig.stackLimit"-->
+          <!--              placeholder="请输入堆栈限制"-->
+          <!--              mode="button"-->
+          <!--              min="0"-->
+          <!--              size="large"-->
+          <!--            />-->
+          <!--          </a-form-item>-->
         </a-space>
       </a-form-item>
       <a-form-item
@@ -101,7 +101,7 @@ import { onMounted, ref } from "vue";
 import MdEditor from "@/components/MdEditor.vue";
 import { QuestionControllerService } from "../../../generated";
 import message from "@arco-design/web-vue/es/message";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 const route = useRoute();
 // 如果页面地址包含 update，视为更新页面
@@ -151,7 +151,7 @@ const loadData = async () => {
     }
     if (!form.value.judgeConfig) {
       form.value.judgeConfig = {
-        memoryLimit: 1000,
+        memoryLimit: 9000,
         stackLimit: 1000,
         timeLimit: 1000,
       };
@@ -172,6 +172,7 @@ onMounted(() => {
   loadData();
 });
 
+const router = useRouter();
 const doSubmit = async () => {
   console.log(form.value);
   // 区分更新还是创建
@@ -184,6 +185,9 @@ const doSubmit = async () => {
     } else {
       message.error("更新失败，" + res.message);
     }
+    router.push({
+      path: "/manage/question/",
+    });
   } else {
     const res = await QuestionControllerService.addQuestionUsingPost(
       form.value
@@ -193,6 +197,9 @@ const doSubmit = async () => {
     } else {
       message.error("创建失败，" + res.message);
     }
+    router.push({
+      path: "/add/questions",
+    });
   }
 };
 

@@ -34,7 +34,9 @@
       <template #acceptedRate="{ record }">
         <a-progress
           :percent="
-            record.submitNum ? record.acceptedNum / record.submitNum : 0
+            record.submitNum
+              ? (record.acceptedNum / record.submitNum).toFixed(2)
+              : 0
           "
           :style="{ width: '100%' }"
           size="large"
